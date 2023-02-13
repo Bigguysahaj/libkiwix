@@ -25,6 +25,7 @@
 
 #include "tools/stringTools.h"
 #include "tools/otherTools.h"
+#include "tools.h"
 
 namespace kiwix
 {
