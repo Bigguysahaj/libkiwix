@@ -46,6 +46,7 @@ class HTMLDumper : public LibraryDumper
    * @return HTML content
    */
   std::string dumpPlainHTML() const;
+
 };
 
 }
