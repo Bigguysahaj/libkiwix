@@ -775,13 +775,14 @@ std::unique_ptr<Response> InternalServer::handle_no_js(const RequestContext& req
 {
   const auto url = request.get_url();
   const auto urlParts = kiwix::split(url, "/", true, false);
+  const auto filter = get_search_filter(request);
   HTMLDumper htmlDumper(mp_library, mp_nameMapper);
   htmlDumper.setRootLocation(m_root);
   htmlDumper.setLibraryId(getLibraryId());
   std::string content;
 
   if (urlParts.size() == 1) {
-    content = htmlDumper.dumpPlainHTML();
+    content = htmlDumper.dumpPlainHTML(filter);
   } else if ((urlParts.size() == 3) && (urlParts[1] == "download") && (mp_nameMapper->getIdForName(urlParts[2]) != "")) {
     content = getNoJSDownloadPageHTML(mp_nameMapper->getIdForName(urlParts[2]));
   } else {

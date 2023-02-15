@@ -45,8 +45,7 @@ class HTMLDumper : public LibraryDumper
    *
    * @return HTML content
    */
-  std::string dumpPlainHTML() const;
-
+  std::string dumpPlainHTML(kiwix::Filter filter) const;
 };
 
 }

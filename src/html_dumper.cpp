@@ -29,10 +29,13 @@ kainjow::mustache::list getTagList(std::string tags)
   return finalTagList;
 }
 
-std::string HTMLDumper::dumpPlainHTML() const
+std::string HTMLDumper::dumpPlainHTML(kiwix::Filter filter) const
 {
   kainjow::mustache::list booksData;
-  for ( const auto& bookId : library->getBooksIds() ) {
+  const auto filteredBooks = library->filter(filter);
+  const auto searchQuery = filter.getQuery();
+
+  for ( const auto& bookId : filteredBooks ) {
     const auto bookObj = library->getBookById(bookId);
     const auto bookTitle = bookObj.getTitle();
     std::string contentId = "";
@@ -61,7 +64,8 @@ std::string HTMLDumper::dumpPlainHTML() const
              RESOURCE::templates::no_js_library_page_html,
              kainjow::mustache::object{
                {"root", rootLocation},
-               {"books", booksData }
+               {"books", booksData },
+               {"searchQuery", searchQuery}
              }
   );
 }
