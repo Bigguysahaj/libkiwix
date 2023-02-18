@@ -34,6 +34,20 @@ std::string HTMLDumper::dumpPlainHTML(kiwix::Filter filter) const
   kainjow::mustache::list booksData;
   const auto filteredBooks = library->filter(filter);
   const auto searchQuery = filter.getQuery();
+  auto languages = getLanguageList();
+  auto categories = getCategoryList();
+
+  for (auto &category : categories) {
+    if (category.get("name")->string_value() == filter.getCategory()) {
+      category["selected"] = true;
+    }
+  }
+
+  for (auto &language : languages) {
+    if (language.get("lang_code")->string_value() == filter.getLang()) {
+      language["selected"] = true;
+    }
+  }
 
   for ( const auto& bookId : filteredBooks ) {
     const auto bookObj = library->getBookById(bookId);
@@ -66,7 +80,9 @@ std::string HTMLDumper::dumpPlainHTML(kiwix::Filter filter) const
                {"root", rootLocation},
                {"books", booksData },
                {"searchQuery", searchQuery},
-               {"resultsCount", to_string(filteredBooks.size())}
+               {"resultsCount", to_string(filteredBooks.size())},
+               {"languages", languages},
+               {"categories", categories}
              }
   );
 }

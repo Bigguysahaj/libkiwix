@@ -26,6 +26,7 @@
 #include "tools/stringTools.h"
 #include "tools/otherTools.h"
 #include "tools.h"
+#include "tools/regexTools.h"
 
 namespace kiwix
 {
