@@ -945,6 +945,4 @@ TEST_F(LibraryServerTest, no_name_mapper_catalog_v2_individual_entry_access)
   EXPECT_EQ(r1->status, 404);
 }
 
-
-
 #undef EXPECT_SEARCH_RESULTS
