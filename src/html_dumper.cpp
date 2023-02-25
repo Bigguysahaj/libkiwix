@@ -2,6 +2,7 @@
 #include "libkiwix-resources.h"
 #include "tools/otherTools.h"
 #include "tools.h"
+#include "server/i18n.h"
 
 namespace kiwix
 {
@@ -74,15 +75,27 @@ std::string HTMLDumper::dumpPlainHTML(kiwix::Filter filter) const
     });
   }
 
+  auto i18nTranslations = i18n::GetTranslatedStringWithMsgId(m_userLang);
+
+  const auto translations = kainjow::mustache::object{
+                    i18nTranslations("search"),
+                    i18nTranslations("download"),
+                    i18nTranslations("count-of-matching-books", {{"COUNT", to_string(filteredBooks.size())}}),
+                    i18nTranslations("book-filtering-all-categories"),
+                    i18nTranslations("book-filtering-all-languages"),
+                    i18nTranslations("powered-by-kiwix-html"),
+                    i18nTranslations("welcome-to-kiwix-server")
+  };
+
   return render_template(
              RESOURCE::templates::no_js_library_page_html,
              kainjow::mustache::object{
                {"root", rootLocation},
                {"books", booksData },
                {"searchQuery", searchQuery},
-               {"resultsCount", to_string(filteredBooks.size())},
                {"languages", languages},
-               {"categories", categories}
+               {"categories", categories},
+               {"translations", translations}
              }
   );
 }

@@ -69,6 +69,25 @@ private:
   const std::string m_lang;
 };
 
+class GetTranslatedStringWithMsgId
+{
+public:
+  explicit GetTranslatedStringWithMsgId(const std::string& lang) : m_lang(lang) {}
+
+  std::pair<std::string, kainjow::mustache::basic_data<std::string>> operator()(const std::string& key) const
+  {
+    return {key, getTranslatedString(m_lang, key)};
+  }
+
+  std::pair<std::string, kainjow::mustache::basic_data<std::string>> operator()(const std::string& key, const Parameters& params) const
+  {
+    return {key, expandParameterizedString(m_lang, key, params)};
+  }
+
+private:
+  const std::string m_lang;
+};
+
 } // namespace i18n
 
 struct ParameterizedMessage

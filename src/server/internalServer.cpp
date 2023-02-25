@@ -762,11 +762,20 @@ std::unique_ptr<Response> InternalServer::handle_viewer_settings(const RequestCo
 std::string InternalServer::getNoJSDownloadPageHTML(const std::string& bookId) const
 {
   const auto book = mp_library->getBookById(bookId);
+  auto i18nTranslations = i18n::GetTranslatedStringWithMsgId(m_userLang);
+  const auto translations = kainjow::mustache::object{
+                            i18nTranslations("download-links-title", {{"BOOK_TITLE", book.getTitle()}}),
+                            i18nTranslations("direct-download-link-text"),
+                            i18nTranslations("hash-download-link-text"),
+                            i18nTranslations("magnet-link-text"),
+                            i18nTranslations("torrent-download-link-text")
+  };
 
   return render_template(
              RESOURCE::templates::no_js_download_html,
              kainjow::mustache::object{
-               {"url", book.getUrl()}
+               {"url", book.getUrl()},
+               {"translations", translations}
              }
   );
 }
@@ -779,6 +788,10 @@ std::unique_ptr<Response> InternalServer::handle_no_js(const RequestContext& req
   htmlDumper.setRootLocation(m_root);
   htmlDumper.setLibraryId(getLibraryId());
   auto filter = get_search_filter(request);
+  try {
+    m_userLang = request.get_argument("userlang");
+  } catch (...) {}
+  htmlDumper.setUserLanguage(m_userLang);
   try {
     if (request.get_argument("category") == "") {
       filter.clearCategory();

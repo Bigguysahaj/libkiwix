@@ -177,6 +177,7 @@ class InternalServer {
     std::string m_indexTemplateString;
     int m_ipConnectionLimit;
     struct MHD_Daemon* mp_daemon;
+    std::string m_userLang;
 
     Library* mp_library;
     NameMapper* mp_nameMapper;

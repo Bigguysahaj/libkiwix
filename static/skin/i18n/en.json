@@ -46,4 +46,6 @@
 	, "library-opds-feed": "Library OPDS Feed"
 	, "filter-by-tag": "Filter by tag \"{{TAG}}\""
 	, "stop-filtering-by-tag": "Stop filtering by tag \"{{TAG}}\""
+	, "welcome-to-kiwix-server": "Welcome to Kiwix Server"
+	, "download-links-title": "Download links for {{BOOK_TITLE}}"
 }
