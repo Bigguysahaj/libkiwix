@@ -84,7 +84,8 @@ std::string HTMLDumper::dumpPlainHTML(kiwix::Filter filter) const
                     i18nTranslations("book-filtering-all-categories"),
                     i18nTranslations("book-filtering-all-languages"),
                     i18nTranslations("powered-by-kiwix-html"),
-                    i18nTranslations("welcome-to-kiwix-server")
+                    i18nTranslations("welcome-to-kiwix-server"),
+                    i18nTranslations("welcome-page-overzealous-filter", {{"URL", "?lang="}})
   };
 
   return render_template(
@@ -95,6 +96,7 @@ std::string HTMLDumper::dumpPlainHTML(kiwix::Filter filter) const
                {"searchQuery", searchQuery},
                {"languages", languages},
                {"categories", categories},
+               {"noResults", filteredBooks.size() == 0},
                {"translations", translations}
              }
   );
